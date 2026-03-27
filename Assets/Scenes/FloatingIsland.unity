@@ -706,6 +706,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   focalPoint: {fileID: 49300294}
+  HasPowerUp: 1
 --- !u!54 &1231960639
 Rigidbody:
   m_ObjectHideFlags: 0
