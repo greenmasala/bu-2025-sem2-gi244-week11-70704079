@@ -15,7 +15,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform focalPoint;
     public bool HasPowerUp;
     private Coroutine powerUpRoutine;
-
+    public GameObject PowerUpEffect;
+    private GameObject powerUpEffectPrefab;
+    public bool HasStun;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -35,12 +37,17 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = Vector3.zero;
         }
+        if (powerUpEffectPrefab != null)
+        {
+            powerUpEffectPrefab.transform.position = transform.position;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PowerUp"))
         {
+            powerUpEffectPrefab = Instantiate(PowerUpEffect, transform.position, Quaternion.identity);
             HasPowerUp = true;
             Destroy(other.gameObject);
             if (powerUpRoutine != null)
@@ -69,5 +76,6 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         HasPowerUp = false;
+        Destroy(powerUpEffectPrefab.gameObject);
     }
 }
