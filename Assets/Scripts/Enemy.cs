@@ -8,12 +8,15 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-
+        rb = GetComponent<Rigidbody>();
+        player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        Vector3 dir = player.transform.position - transform.position;
+        dir.Normalize(); //get only direction via turning var to 0 or 1;
+        rb.AddForce(dir * speed);
     }
 }
