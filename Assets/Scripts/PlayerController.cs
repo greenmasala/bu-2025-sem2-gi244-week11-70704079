@@ -47,9 +47,20 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("PowerUp"))
         {
+            if (other.GetComponent<StunPowerUp>())
+            {
+                HasStun = true;
+                Destroy(other.gameObject);
+            }
+
+            if (powerUpEffectPrefab != null)
+            {
+                Destroy(powerUpEffectPrefab);
+            }
             powerUpEffectPrefab = Instantiate(PowerUpEffect, transform.position, Quaternion.identity);
             HasPowerUp = true;
             Destroy(other.gameObject);
+
             if (powerUpRoutine != null)
             {
                 StopCoroutine(powerUpRoutine); //stopping the coroutine b4 starting it again to avoid it from running the same coroutine at the same time
