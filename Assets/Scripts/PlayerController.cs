@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform focalPoint;
     public bool HasPowerUp;
     private Coroutine powerUpRoutine;
+    private Coroutine stunRoutine;
     public GameObject PowerUpEffect;
     private GameObject powerUpEffectPrefab;
     public bool HasStun;
@@ -47,12 +48,6 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("PowerUp"))
         {
-            if (other.GetComponent<StunPowerUp>())
-            {
-                HasStun = true;
-                Destroy(other.gameObject);
-            }
-
             if (powerUpEffectPrefab != null)
             {
                 Destroy(powerUpEffectPrefab);
@@ -66,6 +61,17 @@ public class PlayerController : MonoBehaviour
                 StopCoroutine(powerUpRoutine); //stopping the coroutine b4 starting it again to avoid it from running the same coroutine at the same time
             }
             powerUpRoutine = StartCoroutine(PowerUpCooldown());
+        }
+
+        if (other.GetComponent<StunPowerUp>())
+        {
+            Destroy(other.gameObject);
+            if (stunRoutine != null)
+            {
+                StopCoroutine(stunRoutine);
+                Debug.Log("Reset stunRoutine");
+            }
+            stunRoutine = StartCoroutine(Stun());
         }
     }
 
@@ -88,5 +94,11 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(5f);
         HasPowerUp = false;
         Destroy(powerUpEffectPrefab.gameObject);
+    }
+
+    IEnumerator Stun()
+    {
+        yield return new WaitForSeconds(5f);
+        HasStun = false;
     }
 }
