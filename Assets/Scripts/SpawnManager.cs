@@ -51,7 +51,6 @@ public class SpawnManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             int randomIndex = Random.Range(0, availableSpawnPoints.Count);
-            Debug.Log(randomIndex);
             waveSpawnPoints[i] = availableSpawnPoints[randomIndex];
             availableSpawnPoints.RemoveAt(randomIndex);
         }
